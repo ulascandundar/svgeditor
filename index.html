@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="text-4xl font-bold text-center text-[#6F4F37] mb-8 mt-6">Restaurant Layout Editor</h1>
+    <div class="button-container">
+        <button onclick="addTable()" class="btn btn-brown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/>
+            </svg>
+            <span>Add Table</span>
+        </button>
+        <button onclick="showBulkTableModal()" class="btn btn-brown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/>
+            </svg>
+            <span>Add Multiple Tables</span>
+        </button>
+        <button onclick="setMode('wall')" class="btn btn-brown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+            </svg>
+            <span>Add Wall</span>
+        </button>
+        <button onclick="addKitchen()" class="btn btn-brown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+            </svg>
+            <span>Add Kitchen</span>
+        </button>
+        <button onclick="addBar()" class="btn btn-brown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+            </svg>
+            <span>Add Bar</span>
+        </button>
+        <button onclick="deleteSelectedElement()" class="btn btn-red">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>Delete</span>
+        </button>
+        <button onclick="saveLayout()" class="btn btn-green">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z"/>
+            </svg>
+            <span>Save</span>
+        </button>
+        <button onclick="setMode('select')" class="btn btn-blue">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clip-rule="evenodd"/>
+            </svg>
+            <span>Select Mode</span>
+        </button>
+        <button onclick="zoomIn()" class="btn btn-blue">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>Zoom In</span>
+        </button>
+        <button onclick="zoomOut()" class="btn btn-blue">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>Zoom Out</span>
+        </button>
+    </div>
+    
+    <div id="editor-container">
+        <svg id="editor"></svg>
+    </div>
+    <div id="minimap">
+        <div id="minimap-viewport"></div>
+    </div>
+    <script src="script.js"></script>
+    <!-- Multiple Tables Modal -->
+    <div id="bulkTableModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Add Multiple Tables</h2>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Number of Horizontal Tables</label>
+                    <input type="number" id="horizontalTables" min="1" max="10" value="1" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Number of Vertical Tables</label>
+                    <input type="number" id="verticalTables" min="1" max="10" value="1" class="form-input">
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeBulkTableModal()" class="btn btn-secondary">
+                        Cancel
+                    </button>
+                    <button onclick="addBulkTables()" class="btn btn-brown">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

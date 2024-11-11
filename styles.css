@@ -1,0 +1,240 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#editor-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+}
+#editor {
+    width: 2000px;
+    height: 2000px;
+    border: 1px solid #ccc;
+    transition: transform 0.2s ease-out;
+    transform-origin: top left;
+}
+.table, .wall, .kitchen, .bar {
+    cursor: move;
+}
+.wall {
+    stroke: #B0BEC5; /* Duvar rengini biraz daha koyu yaptık */
+    stroke-width: 12; /* Duvar kalınlığını artırdık */
+    cursor: crosshair;
+    stroke-linecap: round;
+    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));  /* Gölgelendirme ekledik */
+}
+.wall:hover {
+    stroke: #555; /* Duvarın üzerine gelinceki rengini biraz daha koyu yaptık */
+}
+.guide-lines {
+    pointer-events: none;
+}
+
+.selected {
+    stroke: red;
+    stroke-width: 2;
+}
+.wall.selected {
+    stroke: #007bff;
+    stroke-width: 10; /* Seçili duvarın kalınlığını artırdık */
+}
+.angle-indicator, .length-indicator {
+    font-size: 12px;
+    pointer-events: none;
+    font-family: Arial, sans-serif;
+}
+.selection-area {
+    fill: rgba(0, 0, 255, 0.1);
+    stroke: blue;
+    stroke-width: 1;
+}
+#minimap {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #000;
+    background-color: rgba(255, 255, 255, 0.8);
+    cursor: move;
+}
+#minimap-viewport {
+    position: absolute;
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+text {
+    user-select: none;
+}
+
+#bulkTableModal {
+    z-index: 1000;
+}
+
+#bulkTableModal input[type="number"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+}
+
+/* Mevcut CSS'e eklenecek yeni stiller */
+
+/* Header Styles */
+h1 {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #6F4F37;
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+}
+
+/* Button Styles */
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:focus {
+    outline: none;
+    ring: 4px;
+    ring-opacity: 50%;
+}
+
+.btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Button Variants */
+.btn-brown {
+    background: linear-gradient(to right, #8B5E3C, #6F4F37);
+}
+
+.btn-brown:focus {
+    ring-color: #6F4F37;
+}
+
+.btn-red {
+    background: linear-gradient(to right, #DC2626, #B91C1C);
+}
+
+.btn-red:focus {
+    ring-color: #DC2626;
+}
+
+.btn-green {
+    background: linear-gradient(to right, #059669, #047857);
+}
+
+.btn-green:focus {
+    ring-color: #059669;
+}
+
+.btn-blue {
+    background: linear-gradient(to right, #2563EB, #1D4ED8);
+}
+
+.btn-blue:focus {
+    ring-color: #2563EB;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    width: 24rem;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6F4F37;
+    margin-bottom: 1rem;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn-secondary {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background-color: #D1D5DB;
+}
+
