@@ -55,18 +55,61 @@ body, html {
 }
 #minimap {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    bottom: 20px;
+    right: 20px;
     width: 200px;
     height: 200px;
-    border: 2px solid #000;
-    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 
+        5px 5px 10px #d1d1d1,
+        -5px -5px 10px #ffffff,
+        inset 0 0 0 2px rgba(52, 152, 219, 0.3);
     cursor: move;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    padding: 8px;
 }
+
+#minimap:hover {
+    box-shadow: 
+        8px 8px 16px #d1d1d1,
+        -8px -8px 16px #ffffff,
+        inset 0 0 0 2px rgba(52, 152, 219, 0.5);
+    transform: translateY(-2px);
+}
+
+#minimap svg {
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
 #minimap-viewport {
     position: absolute;
-    border: 2px solid red;
-    background-color: rgba(255, 0, 0, 0.2);
+    border: none;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.15);
+    backdrop-filter: blur(4px);
+    box-shadow: 
+        0 0 0 2px rgba(52, 152, 219, 0.3),
+        0 4px 6px rgba(52, 152, 219, 0.1);
+    cursor: move;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#minimap-viewport:hover {
+    background: rgba(52, 152, 219, 0.25);
+    box-shadow: 
+        0 0 0 2px rgba(52, 152, 219, 0.5),
+        0 6px 8px rgba(52, 152, 219, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+#minimap-viewport:active {
+    background-color: rgba(52, 152, 219, 0.3);
+    border-color: #2472a4;
 }
 text {
     user-select: none;
@@ -238,3 +281,73 @@ h1 {
     background-color: #D1D5DB;
 }
 
+#minimap {
+    border: 2px solid #2c3e50;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#minimap-viewport {
+    border: 2px solid #3498db;
+    border-radius: 2px;
+    background-color: rgba(52, 152, 219, 0.1);
+    cursor: move;
+    transition: background-color 0.2s ease;
+}
+
+#minimap-viewport:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
+/* Selection alanı için stil güncellemeleri */
+.selection-area {
+    fill: rgba(52, 152, 219, 0.08);
+    stroke: none;
+    filter: url(#selection-glow);
+    pointer-events: none;
+    border-radius: 12px;
+    animation: selectionPulse 2s ease-in-out infinite;
+}
+
+@keyframes selectionPulse {
+    0% {
+        filter: url(#selection-glow) drop-shadow(0 0 2px rgba(52, 152, 219, 0.3));
+    }
+    50% {
+        filter: url(#selection-glow) drop-shadow(0 0 4px rgba(52, 152, 219, 0.5));
+    }
+    100% {
+        filter: url(#selection-glow) drop-shadow(0 0 2px rgba(52, 152, 219, 0.3));
+    }
+}
+
+/* Seçili elemanlar için stil */
+.selected {
+    outline: none;
+    filter: 
+        drop-shadow(0 0 4px rgba(52, 152, 219, 0.4))
+        brightness(1.05);
+    position: relative;
+}
+
+.selected::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    animation: selectedPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes selectedPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(52, 152, 219, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    }
+}
