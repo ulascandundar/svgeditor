@@ -1,9 +1,24 @@
 export function initializeEventListeners(editor) {
     // Keyboard events
     document.addEventListener('keydown', (evt) => {
+        // Escape key to deselect
         if (evt.key === 'Escape') {
             editor.selectionManager.deselectAll();
-        } else if (editor.selectionManager.hasSelection()) {
+        }
+        // Undo: Ctrl + Z
+        else if (evt.ctrlKey && !evt.shiftKey && evt.key.toLowerCase() === 'z') {
+            evt.preventDefault();
+            editor.undo();
+        }
+        // Redo: Ctrl + Y or Ctrl + Shift + Z
+        else if (evt.ctrlKey && 
+            ((evt.key.toLowerCase() === 'y') || 
+             (evt.shiftKey && evt.key.toLowerCase() === 'z'))) {
+            evt.preventDefault();
+            editor.redo();
+        }
+        // Other keyboard shortcuts when selection exists
+        else if (editor.selectionManager.hasSelection()) {
             handleKeyboardShortcuts(evt, editor);
         }
     });

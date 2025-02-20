@@ -179,6 +179,11 @@ export class SelectionManager {
     }
     
     moveSelected(dx, dy) {
+        // Save state before moving elements
+        if (dx !== 0 || dy !== 0) {
+            this.editor.saveStateToHistory();
+        }
+
         this.selectedElements.forEach(element => {
             const transform = element.getAttribute('transform');
             const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
@@ -191,6 +196,9 @@ export class SelectionManager {
     }
     
     rotateSelected() {
+        // Save state before rotating elements
+        this.editor.saveStateToHistory();
+
         this.selectedElements.forEach(element => {
             if (element.classList.contains('wall')) {
                 const x1 = parseFloat(element.getAttribute('x1'));
@@ -233,6 +241,11 @@ export class SelectionManager {
     }
     
     deleteSelected() {
+        // Save state before deleting elements
+        if (this.selectedElements.size > 0) {
+            this.editor.saveStateToHistory();
+        }
+
         this.selectedElements.forEach(element => {
             element.remove();
         });
