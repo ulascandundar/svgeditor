@@ -52,6 +52,7 @@ export class Editor {
         this.updateSvgTransform();
         this.updateSvgDimensions();
         this.updateScrollPosition();
+        this.minimapManager.update();
     }
 
     updateSvgTransform() {

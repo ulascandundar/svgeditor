@@ -335,7 +335,7 @@ h1 {
     content: '';
     position: absolute;
     inset: -4px;
-    border: 2px solid #3498db;
+    border: 2px solid #3498db;  
     border-radius: 8px;
     animation: selectedPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
@@ -350,4 +350,85 @@ h1 {
     100% {
         box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
     }
+}
+
+/* Minimap container ve header stilleri */
+.minimap-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 200px;
+}
+
+.minimap-header {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 2px;
+    z-index: 1001;
+}
+
+.minimap-toggle {
+    background: #fff;
+    border: 2px solid #2c3e50;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 0;
+}
+
+.minimap-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.minimap-toggle:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.minimap-toggle.active {
+    background: #3498db;
+    border-color: #2980b9;
+}
+
+.minimap-toggle.active svg {
+    fill: white;
+}
+
+#minimap {
+    border: 2px solid #2c3e50;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#minimap.hidden {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+/* Mevcut minimap stilleri korunuyor */
+#minimap-viewport {
+    border: 2px solid #3498db;
+    border-radius: 2px;
+    background-color: rgba(52, 152, 219, 0.1);
+    cursor: move;
+    transition: background-color 0.2s ease;
+}
+
+#minimap-viewport:hover {
+    background-color: rgba(52, 152, 219, 0.2);
 }
