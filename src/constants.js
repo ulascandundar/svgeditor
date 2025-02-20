@@ -56,7 +56,28 @@ export const CONSTANTS = {
         <rect x="60" y="20" width="25" height="10" fill="#696969" stroke="#A9A9A9" stroke-width="1" />
             <!-- Label -->
             <text x="50" y="75" text-anchor="middle" fill="black" font-size="10" font-weight="bold">Kitchen</text>
-        `
+        `,
+        EVENT_CHAIR: `
+        <!-- Event Koltuğu -->
+        <g class="event-chair">
+            <!-- Koltuk Gövdesi -->
+            <rect x="0" y="0" width="40" height="40" rx="5" ry="5" fill="#4A90E2" filter="url(#chairShadow)"/>
+            <rect x="2" y="2" width="36" height="36" rx="4" ry="4" fill="#5C9CE2"/>
+            
+            <!-- Koltuk Minderi -->
+            <rect x="5" y="5" width="30" height="30" rx="3" ry="3" fill="#7FB1E8"/>
+            <rect x="7" y="7" width="26" height="26" rx="2" ry="2" fill="#A1C6EF"/>
+            
+            <!-- Koltuk Deseni -->
+            <path d="M7 20 L33 20" stroke="#4A90E2" stroke-width="1"/>
+            <path d="M7 25 L33 25" stroke="#4A90E2" stroke-width="1"/>
+            
+            <!-- Koltuk Numarası -->
+            <text x="20" y="35" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+                {{number}}
+            </text>
+        </g>
+    `,
     },
     DOM_IDS: {
         EDITOR: 'editor',

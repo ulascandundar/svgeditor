@@ -5,11 +5,33 @@ export class MinimapManager {
         this.editor = editor;
         this.minimap = document.getElementById('minimap');
         this.minimapViewport = document.getElementById('minimap-viewport');
-        this.isDragging = false;
-        this.minimapStartX = 0;
-        this.minimapStartY = 0;
+        this.isVisible = true;
+        
+        // Toggle butonu için event listener
+        const toggleButton = document.getElementById('toggleMinimap');
+        if (toggleButton) {
+            toggleButton.classList.add('active');
+            toggleButton.addEventListener('click', () => this.toggleMinimap());
+        }
 
         this.initializeEventListeners();
+    }
+
+    toggleMinimap() {
+        this.isVisible = !this.isVisible;
+        this.updateVisibility();
+    }
+
+    updateVisibility() {
+        const toggleButton = document.getElementById('toggleMinimap');
+        
+        if (this.isVisible) {
+            this.minimap.classList.remove('hidden');
+            toggleButton?.classList.add('active');
+        } else {
+            this.minimap.classList.add('hidden');
+            toggleButton?.classList.remove('active');
+        }
     }
 
     initializeEventListeners() {
@@ -71,22 +93,39 @@ export class MinimapManager {
     handleDrag(evt) {
         if (this.isDragging) {
             evt.preventDefault();
-            
             const clientX = evt.clientX || evt.touches[0].clientX;
             const clientY = evt.clientY || evt.touches[0].clientY;
             
-            const dx = clientX - this.minimapStartX;
-            const dy = clientY - this.minimapStartY;
-            
+            const minimapRect = this.minimap.getBoundingClientRect();
+            const editorRect = this.editor.svg.getBoundingClientRect();
             const minimapScale = this.minimap.clientWidth / CONSTANTS.SVG_WIDTH;
             
-            this.editor.editorContainer.scrollLeft += (dx / minimapScale) * this.editor.currentScale;
-            this.editor.editorContainer.scrollTop += (dy / minimapScale) * this.editor.currentScale;
+            // Sınırları kontrol et
+            let newScrollLeft = this.editor.editorContainer.scrollLeft + 
+                (clientX - this.dragStartX) / minimapScale;
+            let newScrollTop = this.editor.editorContainer.scrollTop + 
+                (clientY - this.dragStartY) / minimapScale;
             
-            this.minimapStartX = clientX;
-            this.minimapStartY = clientY;
+            // Minimum ve maximum scroll değerlerini hesapla
+            const maxScrollX = this.editor.editorContainer.scrollWidth - 
+                this.editor.editorContainer.clientWidth;
+            const maxScrollY = this.editor.editorContainer.scrollHeight - 
+                this.editor.editorContainer.clientHeight;
             
-            this.updateViewport();
+            // Sınırları uygula
+            newScrollLeft = Math.max(0, Math.min(newScrollLeft, maxScrollX));
+            newScrollTop = Math.max(0, Math.min(newScrollTop, maxScrollY));
+            
+            // Smooth scroll efekti
+            requestAnimationFrame(() => {
+                this.editor.editorContainer.scrollLeft = newScrollLeft;
+                this.editor.editorContainer.scrollTop = newScrollTop;
+                
+                this.dragStartX = clientX;
+                this.dragStartY = clientY;
+                
+                this.update();
+            });
         }
     }
 
