@@ -8,6 +8,9 @@ export class TableManager {
     }
 
     addTable() {
+        // Save current state before making changes
+        this.editor.saveStateToHistory();
+
         this.tableCount++;
         const tableId = generateGUID();
         const table = this.editor.createSVGElement("g");
@@ -37,6 +40,9 @@ export class TableManager {
     }
 
     addBulkTables(horizontalCount, verticalCount) {
+        // Save current state before making changes
+        this.editor.saveStateToHistory();
+
         // Get current viewport scroll position
         const scrollLeft = this.editor.editorContainer.scrollLeft;
         const scrollTop = this.editor.editorContainer.scrollTop;

@@ -4,6 +4,7 @@ import { KitchenManager } from './managers/KitchenManager.js';
 import { BarManager } from './managers/BarManager.js';
 import { MinimapManager } from './managers/MinimapManager.js';
 import { SelectionManager } from './managers/SelectionManager.js';
+import { HistoryManager } from './managers/historyManager.js';
 import { CONSTANTS } from './constants.js';
 
 export class Editor {
@@ -23,6 +24,7 @@ export class Editor {
         this.barManager = new BarManager(this);
         this.minimapManager = new MinimapManager(this);
         this.selectionManager = new SelectionManager(this);
+        this.historyManager = new HistoryManager(this);
 
         // Initialize zoom event listener
         this.initializeZoom();
@@ -158,5 +160,44 @@ export class Editor {
     // Element creation helper
     createSVGElement(type) {
         return document.createElementNS("http://www.w3.org/2000/svg", type);
+    }
+
+    // State management methods
+    getCurrentState() {
+        return {
+            tables: this.tableManager.getTables(),
+            walls: this.wallManager.getWalls(),
+            kitchens: this.kitchenManager.getKitchens(),
+            bars: this.barManager.getBars()
+        };
+    }
+
+    setState(state) {
+        // Clear current layout
+        this.svg.innerHTML = '';
+        
+        // Load each element type
+        this.tableManager.loadTables(state.tables);
+        this.wallManager.loadWalls(state.walls);
+        this.kitchenManager.loadKitchens(state.kitchens);
+        this.barManager.loadBars(state.bars);
+        
+        // Update minimap
+        this.minimapManager.update();
+    }
+
+    // Save state to history before making changes
+    saveStateToHistory() {
+        this.historyManager.pushState(this.getCurrentState());
+    }
+
+    // Undo last change
+    undo() {
+        this.historyManager.undo();
+    }
+
+    // Redo last undone change
+    redo() {
+        this.historyManager.redo();
     }
 } 
